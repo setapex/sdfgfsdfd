@@ -1,25 +1,26 @@
 {% load static %}
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="#">
+        <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
             <h1>Create Account</h1>
             <div class="social-container">
             </div>
-            <span>or use your email for registration</span>
-            <input type="text" placeholder="username"/>
-            <input type="email" placeholder="email"/>
-            <input type="password" placeholder="password"/>
+            <input type="text" name="username" placeholder="username"/>
+            <input type="email" name="email" placeholder="email"/>
+            <input type="password" name="password1" placeholder="password"/>
+            <input type="password" name="password2" placeholder="confirm password"/>
             <button>Sign Up</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
             <h1>Sign in</h1>
             <div class="social-container">
             </div>
-            <span>or use your account</span>
-            <input type="email" placeholder="email"/>
-            <input type="password" placeholder="password"/>
+            <input type="text" name="username" placeholder="username"/>
+            <input type="password" name="password" placeholder="password"/>
             <a href="#">Forgot your password?</a>
             <button>Sign In</button>
         </form>
