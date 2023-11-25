@@ -9,7 +9,6 @@ from .filters import ProductFilter
 
 def index(request):
     random_products = sample(list(Product.objects.all()), 3)
-
     context = {
         'random_products': random_products,
     }

@@ -1,7 +1,7 @@
 {% load static %}
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="{% url 'login' %}" method="POST">
+        <form action="{% url 'reg' %}" method="POST">
                 {% csrf_token %}
             <h1>Create Account</h1>
             <div class="social-container">
