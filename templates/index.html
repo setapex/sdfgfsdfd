@@ -75,6 +75,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'shop' %}">Shop</a>
                     </li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated and user.is_staff %}
+                            <a class="nav-link" href="{% url 'admin:index' %}">Admin Dashboard</a>
+                        {% endif %}
+                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
@@ -90,13 +95,15 @@
                    data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="{% url 'order' %}">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                     <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                 </a>
                 <a class="nav-icon position-relative text-decoration-none" href="#">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">
+        {{ request.user.username }}
+    </span>
                 </a>
             </div>
         </div>
@@ -225,19 +232,20 @@
         </div>
         <div class="row">
             {% for product in random_products %}
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="{% url 'product_detail' product.id %}">
-                        <img src="{{ product.image1_url }}" class="card-img-top" alt="{{ product.name }}">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li class="text-muted text-right">{{ product.price }} BYN</li>
-                        </ul>
-                        <a href="{% url 'product_detail' product.id %}" class="h2 text-decoration-none text-dark">{{ product.name }}</a>
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image1_url }}" class="card-img-top" alt="{{ product.name }}">
+                        </a>
+                        <div class="card-body">
+                            <ul class="list-unstyled d-flex justify-content-between">
+                                <li class="text-muted text-right">{{ product.price }} BYN</li>
+                            </ul>
+                            <a href="{% url 'product_detail' product.id %}"
+                               class="h2 text-decoration-none text-dark">{{ product.name }}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>

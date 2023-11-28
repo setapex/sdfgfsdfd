@@ -20,7 +20,7 @@ def about(request):
 
 
 def reg(request):
-    return render(request, 'registration.html')
+    return render(request, 'order.html')
 
 
 def product_detail(request, product_id):
