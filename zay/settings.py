@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'django_filters',
     'django_extensions',
+    'cart',
 ]
 
 MIDDLEWARE = [
