@@ -22,8 +22,9 @@ def about(request):
 
 def cart_view(request):
     cart_items = CartItem.objects.filter(cart__user=request.user)
+    total_price = sum(item.total_price for item in cart_items)
 
-    return render(request, 'order.html', {'cart_items': cart_items})
+    return render(request, 'order.html', {'cart_items': cart_items, 'total_price': total_price})
 
 
 def add_to_cart(request, product_id):
