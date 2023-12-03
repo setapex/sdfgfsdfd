@@ -1,0 +1,42 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/ord.css' %}">
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/templatemo.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<div class="container mt-5 p-3 rounded cart">
+    <div class="row no-gutters">
+        <div class="col-md-8">
+            <div class="product-details mr-2">
+                <div class="d-flex flex-row align-items-center"><a href="{% url 'shop' %}">Back</a>
+                </div>
+                <hr>
+                {% for product_info in products %}
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                        <div class="d-flex flex-row">
+                            <img class="rounded" src="{{ product_info.image_url }}" width="40" height="40">
+                            <div class="ml-2">
+                                <span class="font-weight-bold d-block">{{ product_info.product.name }}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                            <span class="d-block">{{ product_info.quantity }}</span>
+                            <span class="d-block ml-5 font-weight-bold">{{ product_info.quant }}</span>
+                            <span class="d-block ml-5 font-weight-bold">{{ product_info.prod_need }}</span>
+                            <i class="fa fa-trash-o ml-3 text-black-50"></i>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

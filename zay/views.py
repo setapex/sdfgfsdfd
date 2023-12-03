@@ -1,9 +1,11 @@
+import math
 from random import sample
 
+from django.db.models import Sum, F
 from django.shortcuts import render, get_object_or_404, redirect
 from django_filters.views import FilterView
 
-from cart.models import CartItem, Cart
+from cart.models import CartItem, Cart, Purchase, PurchaseItem
 from products.models import Product
 from .filters import ProductFilter
 
@@ -53,8 +55,22 @@ def purchase(request):
 
     cart_items = CartItem.objects.filter(cart=cart)
 
+    purchase = Purchase.objects.create(user=request.user)
+
     for cart_item in cart_items:
         if cart_item.product.quantity >= cart_item.quantity:
+            # Проверяем, существует ли запись для этого продукта у пользователя
+            purchase_item, created = PurchaseItem.objects.get_or_create(
+                purchase=purchase,
+                product=cart_item.product,
+                defaults={'quantity': 0}  # Устанавливаем количество в 0 при создании новой записи
+            )
+
+            # Обновляем количество продукта в записи
+            PurchaseItem.objects.filter(pk=purchase_item.pk).update(
+                quantity=F('quantity') + cart_item.quantity
+            )
+
             cart_item.product.quantity -= cart_item.quantity
             cart_item.product.save()
 
@@ -63,6 +79,7 @@ def purchase(request):
             print("Sorry, not enough stock available for cart_item.product.name", cart_item.product.name)
 
     cart_items.delete()
+
     print("Purchase successful! Thank you for shopping with us.")
 
     return redirect('order')
@@ -94,3 +111,44 @@ class ProductListView(FilterView):
         context = super().get_context_data(**kwargs)
         context['products'] = self.get_queryset()
         return context
+
+
+def control(request):
+    purchase_sum_per_product = PurchaseItem.objects.values('product__name').annotate(total_quantity=Sum('quantity'))
+    purchase_info_dict = {data['product__name']: data['total_quantity'] for data in purchase_sum_per_product}
+
+    k = 50
+    h = 0.02
+    l = 5
+    le = l
+    prod = Product.objects.all()
+
+    result_list = []
+
+    for product in prod:
+        product.total_quantity = purchase_info_dict.get(product.name, 0)
+        d = product.total_quantity
+        if d > 0:
+            y = int((2 * k * d / h) ** 0.5)
+            t = int(y / d)
+            if l > t:
+                le = l - math.floor(l / t) * t
+            quant = le * d
+            print(product)
+            print(quant)
+
+            if quant > product.quantity:
+                print(f'quant = {quant} > quantity = {product.quantity} ')
+                result_list.append({
+                    'product': product,
+                    'quant': quant,
+                    'quantity': product.quantity,
+                    'image_url': product.image1_url,
+                    'prod_need': y
+                })
+
+    context = {
+        'products': result_list
+    }
+    print(context)
+    return render(request, 'control-products.html', context)
