@@ -101,11 +101,13 @@ class ProductListView(FilterView):
         queryset = super().get_queryset()
         gender = self.request.GET.get('gender')
         unit = self.request.GET.get('unit')
-
+        sizes = self.request.GET.get('sizes')
         if gender:
             queryset = queryset.filter(gender=gender)
         if unit:
             queryset = queryset.filter(unit=unit)
+        if sizes:
+            queryset = queryset.filter(sizes__contains=sizes)
 
         return queryset
 
