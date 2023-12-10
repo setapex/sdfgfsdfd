@@ -21,7 +21,7 @@
                 </div>
                 <hr>
                 <h6 class="mb-0">Shopping cart</h6>
-                <div class="d-flex justify-content-between"><span>You have 4 items in your cart</span>
+                <div class="d-flex justify-content-between">
 
                     <div class="d-flex flex-row align-items-center"><span class="text-black-50">Sort by:</span>
                         <div class="price ml-2"><span class="mr-1">price</span><i class="fa fa-angle-down"></i></div>
@@ -29,65 +29,96 @@
                 </div>
                 {% for cart_item in cart_items %}
                     <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
-                        <div class="d-flex flex-row"><img class="rounded"
-                                                          src={{ cart_item.product.image1_url }} width="40" height="40">
-                            <div class="ml-2"><span class="font-weight-bold d-block">{{ cart_item.product.name }}</span>
-                            </div>
+                    <div class="d-flex flex-row"><img class="rounded"
+                                                      src={{ cart_item.product.image1_url }} width="40" height="40">
+                        <div class="ml-2"><span class="font-weight-bold d-block">{{ cart_item.product.name }}</span>
                         </div>
-                        <div class="d-flex flex-row align-items-center"><span
-                                class="d-block">{{ cart_item.quantity }}</span><span
-                                class="d-block ml-5 font-weight-bold">{{ cart_item.product.price }}BYN</span><i
-                                class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                    </div>
+                    <div class="d-flex flex-row align-items-center"><span
+                            class="d-block">{{ cart_item.quantity }}</span><span
+                            class="d-block ml-5 font-weight-bold">{{ cart_item.product.price }}BYN</span><i
+                            class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                    <i class="fas fa-trash-alt ml-3 text-black-50 delete-item" data-item-id="{{ cart_item.id }}" style="cursor: pointer;"></i>
                     </div>
                 {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="payment-info">
-                <div class="d-flex justify-content-between align-items-center"><span>Card details</span><img
-                        class="rounded" src="https://i.imgur.com/WU501C8.jpg" width="30"></div>
-                <span class="type d-block mt-3 mb-1">Card type</span><label class="radio"> <input type="radio"
-                                                                                                  name="card"
-                                                                                                  value="payment"
-                                                                                                  checked> <span><img
-                    width="30" src="https://img.icons8.com/color/48/000000/mastercard.png"/></span> </label>
-
-                <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
-                                                                                                  src="https://img.icons8.com/officel/48/000000/visa.png"/></span>
-                </label>
-
-                <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
-                                                                                                  src="https://img.icons8.com/ultraviolet/48/000000/amex.png"/></span>
-                </label>
-
-
-                <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
-                                                                                                  src="https://img.icons8.com/officel/48/000000/paypal.png"/></span>
-                </label>
-                <div><label class="credit-card-label">Name on card</label><input type="text"
-                                                                                 class="form-control credit-inputs"
-                                                                                 placeholder="Name"></div>
-                <div><label class="credit-card-label">Card number</label><input type="text"
-                                                                                class="form-control credit-inputs"
-                                                                                placeholder="0000 0000 0000 0000"></div>
-                <div class="row">
-                    <div class="col-md-6"><label class="credit-card-label">Date</label><input type="text"
-                                                                                              class="form-control credit-inputs"
-                                                                                              placeholder="12/24"></div>
-                    <div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text"
-                                                                                             class="form-control credit-inputs"
-                                                                                             placeholder="342"></div>
                 </div>
-                <hr class="line">
-                <button class="btn btn-primary btn-block d-flex justify-content-between mt-3" type="button"
-                        onclick="redirectToCheckout()"><span>{{total_price}}</span><span>Checkout<i
-                        class="fa fa-long-arrow-right ml-1"></i></span></button>
+            </div>
+            <div class="col-md-4">
+                <div class="payment-info">
+                    <div class="d-flex justify-content-between align-items-center"><span>Card details</span><img
+                            class="rounded" src="https://i.imgur.com/WU501C8.jpg" width="30"></div>
+                    <span class="type d-block mt-3 mb-1">Card type</span><label class="radio"> <input type="radio"
+                                                                                                      name="card"
+                                                                                                      value="payment"
+                                                                                                      checked>
+                    <span><img
+                            width="30" src="https://img.icons8.com/color/48/000000/mastercard.png"/></span> </label>
+
+                    <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
+                                                                                                      src="https://img.icons8.com/officel/48/000000/visa.png"/></span>
+                    </label>
+
+                    <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
+                                                                                                      src="https://img.icons8.com/ultraviolet/48/000000/amex.png"/></span>
+                    </label>
+
+
+                    <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
+                                                                                                      src="https://img.icons8.com/officel/48/000000/paypal.png"/></span>
+                    </label>
+                    <div><label class="credit-card-label">Name on card</label><input type="text"
+                                                                                     class="form-control credit-inputs"
+                                                                                     placeholder="Name"></div>
+                    <div><label class="credit-card-label">Card number</label><input type="text"
+                                                                                    class="form-control credit-inputs"
+                                                                                    placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><label class="credit-card-label">Date</label><input type="text"
+                                                                                                  class="form-control credit-inputs"
+                                                                                                  placeholder="12/24">
+                        </div>
+                        <div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text"
+                                                                                                 class="form-control credit-inputs"
+                                                                                                 placeholder="342">
+                        </div>
+                    </div>
+                    <hr class="line">
+                    <button class="btn btn-primary btn-block d-flex justify-content-between mt-3" type="button"
+                            onclick="redirectToCheckout()"><span>{{ total_price }}</span><span>Checkout<i
+                            class="fa fa-long-arrow-right ml-1"></i></span></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <script>
+        function redirectToCheckout() {
+            window.location.href = "{% url 'purchase' %}";
+        }
+    </script>
+
 <script>
-    function redirectToCheckout() {
-        window.location.href = "{% url 'purchase' %}";
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteButtons = document.querySelectorAll('.delete-item');
+
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var itemId = button.getAttribute('data-item-id');
+
+                fetch('/remove_from_cart/' + itemId + '/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    location.reload();
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
 </script>

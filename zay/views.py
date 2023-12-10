@@ -2,7 +2,9 @@ import math
 from random import sample
 
 from django.db.models import Sum, F
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 from django_filters.views import FilterView
 
 from cart.models import CartItem, Cart, Purchase, PurchaseItem
@@ -112,6 +114,12 @@ class ProductListView(FilterView):
         context['products'] = self.get_queryset()
         return context
 
+
+@require_POST
+def remove_from_cart(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    cart_item.delete()
+    return JsonResponse({'message': 'Success'})
 
 def control(request):
     purchase_sum_per_product = PurchaseItem.objects.values('product__name').annotate(total_quantity=Sum('quantity'))
