@@ -126,42 +126,66 @@ def remove_from_cart(request, item_id):
     cart_item.delete()
     return JsonResponse({'message': 'Success'})
 
+
 def control(request):
-    purchase_sum_per_product = PurchaseItem.objects.values('product__name').annotate(total_quantity=Sum('quantity'))
+    purchase_sum_per_product = PurchaseItem.objects.values('product__name', 'product__price').annotate(
+        total_quantity=Sum('quantity'))
     purchase_info_dict = {data['product__name']: data['total_quantity'] for data in purchase_sum_per_product}
+    purchases_info_dict = {data['product__name']: data['product__price'] for data in purchase_sum_per_product}
 
     k = 50
     h = 0.02
     l = 5
     le = l
+    q = 200  # первый опт
+    discount = 0.3  # наименьшая скидка
+    total_pursh = 0
+    total_price = 0
+    isDiscount = False
     prod = Product.objects.all()
 
     result_list = []
 
     for product in prod:
         product.total_quantity = purchase_info_dict.get(product.name, 0)
+        product.price = purchases_info_dict.get(product.name, 0)
+        c1 = float(product.price)
+        c2 = float(product.price) * (1 - discount)
         d = product.total_quantity
         if d > 0:
-            y = int((2 * k * d / h) ** 0.5)
-            t = int(y / d)
+            ym = int((2 * k * d / h) ** 0.5)
+            t = int(ym / d)
             if l > t:
                 le = l - math.floor(l / t) * t
             quant = le * d
-            print(product)
-            print(quant)
 
+            tcu1 = d * c1 + (k * d / ym) + h * ym / 2
+            tcu2 = d * c2 + (k * d / ym) + h * ym / 2
+
+            q_big = int(d * (c1 - c2) / (k * d + h / 2) + ym)
+
+            if (q < ym) or (q > q_big):
+                total_pursh = ym
+            else:
+                total_pursh = q
+            if (ym > q):
+                total_price = total_pursh * c2
+                isDiscount = True
+            else:
+                total_price = total_pursh * c1
+            total_price = round(total_price, 2)
             if quant > product.quantity:
-                print(f'quant = {quant} > quantity = {product.quantity} ')
                 result_list.append({
                     'product': product,
                     'quant': quant,
                     'quantity': product.quantity,
                     'image_url': product.image1_url,
-                    'prod_need': y
+                    'prod_need': total_pursh,
+                    'prod_price': total_price,
+                    'isDiscount': isDiscount
                 })
 
     context = {
         'products': result_list
     }
-    print(context)
     return render(request, 'control-products.html', context)
