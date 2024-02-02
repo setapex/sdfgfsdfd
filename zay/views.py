@@ -137,7 +137,9 @@ def control(request):
     h = 0.02
     l = 5
     le = l
-    q = 200  # первый опт
+    number = int(request.POST.get('number', 200))
+    q = number
+    print(q)
     discount = 0.3  # наименьшая скидка
     total_pursh = 0
     total_price = 0
@@ -147,6 +149,7 @@ def control(request):
     result_list = []
 
     for product in prod:
+
         product.total_quantity = purchase_info_dict.get(product.name, 0)
         product.price = purchases_info_dict.get(product.name, 0)
         c1 = float(product.price)
@@ -162,15 +165,23 @@ def control(request):
             tcu1 = d * c1 + (k * d / ym) + h * ym / 2
             tcu2 = d * c2 + (k * d / ym) + h * ym / 2
 
-            q_big = int(d * (c1 - c2) / (k * d + h / 2) + ym)
-
+            q_big = int(d*10 * (c1 - c2) / (k * d + h / 2) + ym)
+            print(product.name)
+            print(f'{q_big} Q')
+            print(f'{q} q')
+            print(f'{ym} ym')
+            if(q<ym):
+                print('ZONE 1')
+            elif(q>=ym and q<q_big):
+                print('ZONE 2')
+            elif(q>=q_big):print('ZONE 3')
             if (q < ym) or (q > q_big):
                 total_pursh = ym
             else:
                 total_pursh = q
             if (ym > q):
                 total_price = total_pursh * c2
-                isDiscount = True
+                print(f'PRICE SO SKIDKOY for {product}')
             else:
                 total_price = total_pursh * c1
             total_price = round(total_price, 2)
@@ -182,10 +193,20 @@ def control(request):
                     'image_url': product.image1_url,
                     'prod_need': total_pursh,
                     'prod_price': total_price,
-                    'isDiscount': isDiscount
+                    'isDiscount': isDiscount,
+                    'q': q
                 })
-
     context = {
         'products': result_list
     }
     return render(request, 'control-products.html', context)
+
+
+def input_number(request):
+    if request.method == 'POST':
+        number = request.POST.get('number')
+        if number is not None:
+            return render(request, 'pass_opt.html', {'number': number})
+        else:
+            pass
+    return render(request, 'pass_opt.html')

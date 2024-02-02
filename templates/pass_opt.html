@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ввод числа</title>
+</head>
+<body>
+    <h2>Введите количество товара для оптовой закупки:</h2>
+    <form method="post" action="{% url 'control' %}">
+        {% csrf_token %}
+        <input type="number" name="number" required>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

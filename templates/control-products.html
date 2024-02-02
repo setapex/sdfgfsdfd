@@ -45,7 +45,7 @@
                             <span class="d-block">{{ product_info.quantity }}</span>
                             <span class="d-block ml-5 font-weight-bold">{{ product_info.quant }}</span>
                             <span class="d-block ml-5 font-weight-bold">{{ product_info.prod_need }}</span>
-                            {% if product_info.isDiscount == True %}
+                            {% if product_info.q <= product_info.prod_need %}
                                 <span class="d-block ml-5 font-weight-bold">30%</span>
                             {% else %}
                                 <span class="d-block ml-5 font-weight-bold">-</span>
