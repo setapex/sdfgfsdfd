@@ -34,6 +34,7 @@ class PurchaseItem(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+    purchase_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.product.name}, Quantity: {self.quantity}"
