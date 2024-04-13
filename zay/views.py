@@ -1,7 +1,8 @@
 import math
+from datetime import datetime
 from random import sample
 
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
@@ -14,6 +15,11 @@ from .filters import ProductFilter
 
 def index(request):
     random_products = sample(list(Product.objects.all()), 3)
+    purch = PurchaseItem.objects.all()
+    for p in purch:
+        print(p.product)
+        print(p.purchase_date)
+        print(p.quantity)
     context = {
         'random_products': random_products,
     }
@@ -50,6 +56,18 @@ def add_to_cart(request, product_id):
     print('END')
 
     return redirect('order')
+
+
+"""
+контроллер
+
+слой сервисов
+
+абстракция над моделями
+
+модели
+
+"""
 
 
 def purchase(request):
@@ -99,18 +117,19 @@ class ProductListView(FilterView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        gender = self.request.GET.get('gender')
-        unit = self.request.GET.get('unit')
-        category = self.request.GET.get('category')
-        sizes = self.request.GET.get('sizes')
-        if gender:
-            queryset = queryset.filter(gender=gender)
-        if unit:
-            queryset = queryset.filter(unit=unit)
-        if sizes:
-            queryset = queryset.filter(sizes__contains=sizes)
-        if category:
-            queryset = queryset.filter(category=category)
+        genders = self.request.GET.getlist('gender')
+        units = self.request.GET.getlist('unit')
+        categories = self.request.GET.getlist('category')
+        sizes = self.request.GET.getlist('sizes')
+
+        gender_filters = Q(gender__in=genders) if genders else Q()
+        unit_filters = Q(unit__in=units) if units else Q()
+        category_filters = Q(category__in=categories) if categories else Q()
+        size_filters = Q()
+        for size in sizes:
+            size_filters |= Q(sizes__contains=size)
+
+        queryset = queryset.filter(gender_filters & unit_filters & category_filters & size_filters)
 
         return queryset
 
@@ -118,6 +137,7 @@ class ProductListView(FilterView):
         context = super().get_context_data(**kwargs)
         context['products'] = self.get_queryset()
         return context
+
 
 
 @require_POST
@@ -128,10 +148,16 @@ def remove_from_cart(request, item_id):
 
 
 def control(request):
-    purchase_sum_per_product = PurchaseItem.objects.values('product__name', 'product__price').annotate(
-        total_quantity=Sum('quantity'))
+    start_date_str = request.POST.get('start_date')
+    end_date_str = request.POST.get('end_date')
+    start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+    end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+
+    purchase_sum_per_product = (PurchaseItem.objects.filter(purchase_date__range=(start_date, end_date))
+                                .values('product__name', 'product__price').annotate(total_quantity=Sum('quantity')))
     purchase_info_dict = {data['product__name']: data['total_quantity'] for data in purchase_sum_per_product}
     purchases_info_dict = {data['product__name']: data['product__price'] for data in purchase_sum_per_product}
+    print(purchase_info_dict)
 
     k = 50
     h = 0.02
@@ -165,21 +191,22 @@ def control(request):
             tcu1 = d * c1 + (k * d / ym) + h * ym / 2
             tcu2 = d * c2 + (k * d / ym) + h * ym / 2
 
-            q_big = int(d*10 * (c1 - c2) / (k * d + h / 2) + ym)
+            q_big = int(d * 10 * (c1 - c2) / (k * d + h / 2) + ym)
             print(product.name)
             print(f'{q_big} Q')
             print(f'{q} q')
             print(f'{ym} ym')
-            if(q<ym):
+            if q < ym:
                 print('ZONE 1')
-            elif(q>=ym and q<q_big):
+            elif q >= ym and q < q_big:
                 print('ZONE 2')
-            elif(q>=q_big):print('ZONE 3')
-            if (q < ym) or (q > q_big):
+            elif q >= q_big:
+                print('ZONE 3')
+            if q < ym or q > q_big:
                 total_pursh = ym
             else:
                 total_pursh = q
-            if (ym > q):
+            if ym > q:
                 total_price = total_pursh * c2
                 print(f'PRICE SO SKIDKOY for {product}')
             else:
@@ -210,3 +237,18 @@ def input_number(request):
         else:
             pass
     return render(request, 'pass_opt.html')
+
+
+class FilterProductView(FilterView):
+    model = Product
+    filterset_class = ProductFilter
+    template_name = 'shop.html'
+
+    def get_queryset(self):
+        queryset = Product.objects.filter(Q(gender=self.request.GET.getlist('gender')))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.get_queryset()
+        return context

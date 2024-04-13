@@ -1,24 +1,11 @@
+{% extends 'base.html' %}
 {% load static %}
-<style>
-    .skip {
-        margin-right: 20px;
-        padding-left: 280px;
-    }
-</style>
-<link rel="stylesheet" href="{% static 'css/ord.css' %}">
-<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
 
-<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/templatemo.css' %}">
-<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<head>
+    {% block title %}<title>Zay Shop</title>{% endblock %}
+</head>
 
-<link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-
+{% block content %}
 <div class="container mt-5 p-3 rounded cart">
     <div class="row no-gutters">
         <div class="col-md-8">
@@ -59,4 +46,5 @@
         </div>
     </div>
 </div>
+{% endblock %}
 

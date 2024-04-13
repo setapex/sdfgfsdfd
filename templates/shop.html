@@ -7,136 +7,151 @@
     {% block title %}<title>Zay Shop</title>{% endblock %}
 </head>
 {% block content %}
-<!-- Start Content -->
-<div class="container py-5">
-    <div class="row">
-        <div class="col-lg-3">
-            <h1 class="h2 pb-4">Categories</h1>
-            <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Gender
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?gender=Male">Men</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?gender=Female">Women</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Category
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?category=sport">Sport</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?category=luxury">Luxury</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?category=everyday">Everyday</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Product
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?unit=hoodie">Hoodie</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?unit=longsleeve">Longsleeve</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?unit=jeans">Jeans</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?unit=dress">Dress</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Size
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?sizes=S">S</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?sizes=M">M</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?sizes=L">L</a></li>
-                        <li><a class="text-decoration-none" href="{% url 'shop' %}?sizes=XL">XL</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <!-- Product Filter -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <form action="{% url 'shop' %}" method="get">
 
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'shop' %}">All</a>
+                    <h1 class="h2 pb-4">Categories</h1>
+                    <ul class="list-unstyled templatemo-accordion">
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                Gender
+                                <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul class="collapse show list-unstyled pl-3">
+                                <input type="checkbox" class="text-decoration-none" name="gender" value="Male"
+                                       id="male">
+                                <label for="male">Men</label>
+                                <input type="checkbox" class="text-decoration-none" name="gender" value="Female"
+                                       id="female">
+                                <label for="female">Women</label>
+                            </ul>
                         </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3"
-                               href="{% url 'shop' %}?gender=Male">Men's</a>
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                Category
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                                <input type="checkbox" class="text-decoration-none" name="category" value="sport"
+                                       id="sport">
+                                <label for="sport">Sport</label>
+                                <input type="checkbox" class="text-decoration-none" name="category" value="luxury"
+                                       id="luxury">
+                                <label for="luxury">Luxury</label>
+                                <input type="checkbox" class="text-decoration-none" name="category" value="everyday"
+                                       id="everyday">
+                                <label for="everyday">Everyday</label>
+                            </ul>
                         </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none"
-                               href="{% url 'shop' %}?gender=Female">Women's</a>
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                Product
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                                <input type="checkbox" class="text-decoration-none" name="unit" value="hoodie"
+                                       id="hoodie">
+                                <label for="hoodie">Hoodie</label>
+                                <input type="checkbox" class="text-decoration-none" name="unit" value="longsleeve"
+                                       id="longsleeve">
+                                <label for="longsleeve">Longsleeve</label>
+                                <input type="checkbox" class="text-decoration-none" name="unit" value="jeans"
+                                       id="jeans">
+                                <label for="jeans">Jeans</label>
+                                <input type="checkbox" class="text-decoration-none" name="unit" value="dress"
+                                       id="dress">
+                                <label for="dress">Dress</label>
+                            </ul>
                         </li>
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                Size
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                                <input type="checkbox" class="text-decoration-none" name="sizes" value="S"
+                                       id="S">
+                                <label for="S">S</label>
+                                <input type="checkbox" class="text-decoration-none" name="sizes" value="M"
+                                       id="M">
+                                <label for="M">M</label>
+                              <input type="checkbox" class="text-decoration-none" name="sizes" value="L"
+                                       id="L">
+                                <label for="L">L</label>
+                              <input type="checkbox" class="text-decoration-none" name="sizes" value="XL"
+                                       id="XL">
+                                <label for="XL">XL</label>
+                            </ul>
+                        </li>
+                        <div class="row">
+                            <button type="submit">Найти</button>
+                        </div>
                     </ul>
-                </div>
-                <div class="col-md-6 pb-4">
-                    <div class="d-flex">
-                        <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
-                        </select>
-                    </div>
-                </div>
+                </form>
             </div>
-            <div class="row">
-                {% for product in products %}
-                    <div class="col-md-4">
-                        <div class="card mb-4 product-wap rounded-0">
-                            <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" src="{{ product.image1_url }}">
-                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                    <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white mt-2"
-                                               href="{% url 'product_detail' product.id %}"><i
-                                                class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2"
-                                               href="{% url 'product_detail' product.id %}"><i
-                                                class="fas fa-cart-plus"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <a href="{% url 'product_detail' product.id %}"
-                                   class="h3 text-decoration-none">{{ product.name }}</a>
-                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                                    <li>{{ product.sizes }}</li>
-                                    <li class="pt-2">
-                                        <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
-                                    </li>
-                                </ul>
-                                <ul class="list-unstyled d-flex justify-content-center mb-1">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <p class="text-center mb-0">{{ product.price }}BYN</p>
-                            </div>
+            <!-- Product Cards -->
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-inline shop-top-menu pb-3 pt-1">
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'shop' %}">All</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none mr-3"
+                                   href="{% url 'shop' %}?gender=Male">Men's</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none"
+                                   href="{% url 'shop' %}?gender=Female">Women's</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 pb-4">
+                        <div class="d-flex">
+                            <select class="form-control">
+                                <option>Featured</option>
+                                <option>A to Z</option>
+                                <option>Item</option>
+                            </select>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 product-wap rounded-0">
+                                <div class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" src="{{ product.image1_url }}">
+                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        <ul class="list-unstyled">
+                                            <li><a class="btn btn-success text-white mt-2"
+                                                   href="{% url 'product_detail' product.id %}"><i
+                                                    class="far fa-eye"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2"
+                                                   href="{% url 'product_detail' product.id %}"><i
+                                                    class="fas fa-cart-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <a href="{% url 'product_detail' product.id %}"
+                                       class="h3 text-decoration-none"><strong>{{ product.name }}</strong></a>
+                                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                        <li>{{ product.sizes }}</li>
+                                        <p class="text-center mb-0">{{ product.price }}BYN</p></ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 {% endblock %}
 
 </body>

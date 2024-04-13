@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Ввод числа</title>
-</head>
+{% extends 'base.html' %}
+<head>{% block title %}<title>Zay Shop</title>{% endblock %}</head>
 <body>
+{% block content %}
     <h2>Введите количество товара для оптовой закупки:</h2>
     <form method="post" action="{% url 'control' %}">
         {% csrf_token %}
+        <label for="start_date">Начальная дата:</label>
+        <input type="date" id="start_date" name="start_date" required><br><br>
+
+        <label for="end_date">Конечная дата:</label>
+        <input type="date" id="end_date" name="end_date" required><br><br>
         <input type="number" name="number" required>
         <button type="submit">Отправить</button>
     </form>
+{% endblock %}
 </body>
-</html>
