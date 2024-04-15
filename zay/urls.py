@@ -7,6 +7,7 @@ from zay.views import ProductListView
 urlpatterns = [
     path('', views.index, name='index'),
     path('auth/', include('aft.urls')),
+    path('profile', views.get_profile, name='profile'),
     path('about', views.about, name='about'),
     path('shop', ProductListView.as_view(), name='shop'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),

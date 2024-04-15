@@ -239,16 +239,16 @@ def input_number(request):
     return render(request, 'pass_opt.html')
 
 
-class FilterProductView(FilterView):
-    model = Product
-    filterset_class = ProductFilter
-    template_name = 'shop.html'
-
-    def get_queryset(self):
-        queryset = Product.objects.filter(Q(gender=self.request.GET.getlist('gender')))
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['products'] = self.get_queryset()
-        return context
+def get_profile(request):
+    user = request.user
+    purchases = Purchase.objects.filter(user=user)
+    all_items = []
+    for purchase in purchases:
+        items = PurchaseItem.objects.filter(purchase=purchase)
+        all_items.extend(items)
+    context = {
+        'user': user,
+        'purchases': purchases,
+        'all_items': all_items
+    }
+    return render(request, 'profile.html', context)

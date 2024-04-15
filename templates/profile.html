@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zay Shop</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="order-history">
+        <h1>Order History</h1>
+        {% for purchase in purchases %}
+            <div class="order">
+                <div class="order-date">
+                    <h2>{{ purchase.purchase_date }}</h2>
+                    <div class="order-line"></div>
+                </div>
+                <div class="order-items">
+                    <div class="order-item">
+                        {% for item in all_items %}
+                            {% if item.purchase == purchase %}
+                                <img src="{{ item.product.image1_url }}" alt="{{ item.product.name }}" 
+                                     style="width: 80px; height: 80px;">
+                                <p>{{ item.product.name }}, Quantity {{ item.quantity }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+</body>
+</html>
