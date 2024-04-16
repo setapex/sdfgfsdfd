@@ -2,7 +2,7 @@ import math
 from datetime import datetime
 from random import sample
 
-from django.db.models import Sum, F, Q
+from django.db.models import Sum, Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
@@ -15,11 +15,6 @@ from .filters import ProductFilter
 
 def index(request):
     random_products = sample(list(Product.objects.all()), 3)
-    purch = PurchaseItem.objects.all()
-    for p in purch:
-        print(p.product)
-        print(p.purchase_date)
-        print(p.quantity)
     context = {
         'random_products': random_products,
     }
@@ -70,41 +65,6 @@ def add_to_cart(request, product_id):
 """
 
 
-def purchase(request):
-    cart = Cart.objects.get(user=request.user)
-
-    cart_items = CartItem.objects.filter(cart=cart)
-
-    purchase = Purchase.objects.create(user=request.user)
-
-    for cart_item in cart_items:
-        if cart_item.product.quantity >= cart_item.quantity:
-            # Проверяем, существует ли запись для этого продукта у пользователя
-            purchase_item, created = PurchaseItem.objects.get_or_create(
-                purchase=purchase,
-                product=cart_item.product,
-                defaults={'quantity': 0}  # Устанавливаем количество в 0 при создании новой записи
-            )
-
-            # Обновляем количество продукта в записи
-            PurchaseItem.objects.filter(pk=purchase_item.pk).update(
-                quantity=F('quantity') + cart_item.quantity
-            )
-
-            cart_item.product.quantity -= cart_item.quantity
-            cart_item.product.save()
-
-            cart_item.delete()
-        else:
-            print("Sorry, not enough stock available for cart_item.product.name", cart_item.product.name)
-
-    cart_items.delete()
-
-    print("Purchase successful! Thank you for shopping with us.")
-
-    return redirect('order')
-
-
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'shop-single.html', {'product': product})
@@ -137,7 +97,6 @@ class ProductListView(FilterView):
         context = super().get_context_data(**kwargs)
         context['products'] = self.get_queryset()
         return context
-
 
 
 @require_POST
@@ -240,14 +199,13 @@ def input_number(request):
 
 
 def get_profile(request):
-    user = request.user
-    purchases = Purchase.objects.filter(user=user)
+    purchases = Purchase.objects.filter(user=request.user)
     all_items = []
     for purchase in purchases:
         items = PurchaseItem.objects.filter(purchase=purchase)
         all_items.extend(items)
     context = {
-        'user': user,
+        'user': request.user,
         'purchases': purchases,
         'all_items': all_items
     }
