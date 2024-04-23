@@ -21,11 +21,12 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/slick.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/slick-theme.css' %}">
-
-{% block title %}
-    <title>Zay Shop</title>
-{% endblock %}
-
+<head>
+    {% block title %}
+        <title>Zay Shop</title>
+    {% endblock %}
+</head>
+<body>
 {% block navbar %}
     <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
         <div class="container text-light">
@@ -90,18 +91,20 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
+                    {% if request.path == '/products' %}
+                        <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                                <div class="input-group-text">
+                                    <i class="fa fa-fw fa-search"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
-                       data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
+                        <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                           data-bs-target="#templatemo_search">
+                            <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                        </a>
+                    {% endif %}
                     <a class="nav-icon position-relative text-decoration-none" href="{% url 'order' %}">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                     </a>
@@ -114,7 +117,7 @@
                     <div id="user-dropdown-menu" class="dropdown-menu">
                         {% if request.user.is_authenticated %}
                             <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
-                            <form action="{% url 'login' %}" method="post">
+                            <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="dropdown-item">Log out</button>
                             </form>
@@ -139,10 +142,12 @@
             </div>
             <form action="" method="get" class="modal-content modal-body border-0 p-0">
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
+                    <form action="{% url "shop" %}" method="get">
+                        <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                        <button type="submit" class="input-group-text bg-success text-light">
+                            <i class="fa fa-fw fa-search text-white"></i>
+                        </button>
+                    </form>
                 </div>
             </form>
         </div>
@@ -247,22 +252,14 @@
         </div>
     </footer>
 {% endblock %}
+</body>
 
 {% block scripts %}
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/templatemo.js' %}"></script>
-    <script>
-        var userDropdown = document.getElementById("user-dropdown");
-        var userDropdownMenu = document.getElementById("user-dropdown-menu");
-        userDropdown.addEventListener("click", function (event) {
-            event.preventDefault();
-            if (userDropdownMenu.style.display === "block") {
-                userDropdownMenu.style.display = "none";
-            } else {
-                userDropdownMenu.style.display = "block";
-            }
-        });
-    </script>
+    <script src="{% static 'js/slick.min.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
+{% block dop_script %}{% endblock %}

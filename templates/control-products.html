@@ -1,50 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<head>
-    {% block title %}<title>Zay Shop</title>{% endblock %}
-</head>
-
 {% block content %}
-<div class="container mt-5 p-3 rounded cart">
-    <div class="row no-gutters">
-        <div class="col-md-8">
-            <div class="product-details mr-2">
-                <div class="d-flex flex-row align-items-center"><a href="{% url 'shop' %}">Back</a></div>
-                <div class="d-flex flex-row skip">
-                    <span class="d-block">Quantity</span>
-                    <span class="d-block ml-4 font-weight-bold">Limit</span>
-                    <span class="d-block ml-4 font-weight-bold">Order</span>
-                    <span class="d-block ml-4 font-weight-bold">Discount</span>
-                    <span class="d-block ml-5 font-weight-bold">Price</span>
-                    <i class="fa fa-trash-o ml-3 text-black-50"></i>
-                </div>
-                <hr>
-                {% for product_info in products %}
-                    <div class="d-flex justify-content-between align-items-center mt-3 p-3 items rounded">
-                        <div class="d-flex flex-row">
-                            <img class="rounded" src="{{ product_info.image_url }}" width="40" height="40">
-                            <div class="ml-2">
-                                <span class="font-weight-bold d-block">{{ product_info.product.name }}</span>
+    <div class="container mt-5 p-3 rounded cart">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="product-details mr-2">
+                    <div class="d-flex flex-row align-items-center"><a href="{% url 'shop' %}">Back</a></div>
+                    <div class="d-flex flex-row skip">
+                        <span class="d-block">Quantity</span>
+                        <span class="d-block ml-4 font-weight-bold">Limit</span>
+                        <span class="d-block ml-4 font-weight-bold">Order</span>
+                        <span class="d-block ml-4 font-weight-bold">Discount</span>
+                        <span class="d-block ml-5 font-weight-bold">Price</span>
+                        <i class="fa fa-trash-o ml-3 text-black-50"></i>
+                    </div>
+                    <hr>
+                    {% for product_info in products %}
+                        <div class="d-flex justify-content-between align-items-center mt-3 p-3 items rounded">
+                            <div class="d-flex flex-row">
+                                <img class="rounded" src="{{ product_info.image_url }}" width="40" height="40">
+                                <div class="ml-2">
+                                    <span class="font-weight-bold d-block">{{ product_info.product.name }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <span class="d-block">{{ product_info.quantity }}</span>
+                                <span class="d-block ml-5 font-weight-bold">{{ product_info.quant }}</span>
+                                <span class="d-block ml-5 font-weight-bold">{{ product_info.prod_need }}</span>
+                                {% if product_info.q <= product_info.prod_need %}
+                                    <span class="d-block ml-5 font-weight-bold">30%</span>
+                                {% else %}
+                                    <span class="d-block ml-5 font-weight-bold">-</span>
+                                {% endif %}
+                                <span class="d-block ml-5 font-weight-bold">{{ product_info.prod_price }}</span>
+                                <i class="fa fa-trash-o ml-3 text-black-50"></i>
                             </div>
                         </div>
-                        <div class="d-flex flex-row align-items-center">
-                            <span class="d-block">{{ product_info.quantity }}</span>
-                            <span class="d-block ml-5 font-weight-bold">{{ product_info.quant }}</span>
-                            <span class="d-block ml-5 font-weight-bold">{{ product_info.prod_need }}</span>
-                            {% if product_info.q <= product_info.prod_need %}
-                                <span class="d-block ml-5 font-weight-bold">30%</span>
-                            {% else %}
-                                <span class="d-block ml-5 font-weight-bold">-</span>
-                            {% endif %}
-                            <span class="d-block ml-5 font-weight-bold">{{ product_info.prod_price }}</span>
-                            <i class="fa fa-trash-o ml-3 text-black-50"></i>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 

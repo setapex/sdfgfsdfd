@@ -1,39 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<head>
-    {% block title %}<title>Zay Shop</title>{% endblock %}
-</head>
-
 {% block content %}
-<div class="container mt-5 p-3 rounded cart">
-    <div class="row no-gutters">
-        <div class="col-md-8">
-            <div class="product-details mr-2">
-                <div class="d-flex flex-row align-items-center"><a href="{% url 'shop' %}">Continue Shopping</a>
-                </div>
-                <hr>
-                <h6 class="mb-0">Shopping cart</h6>
-                <div class="d-flex justify-content-between">
+    <div class="container mt-5 p-3 rounded cart">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="product-details mr-2">
+                    <div class="d-flex flex-row align-items-center"><a href="{% url 'shop' %}">Continue Shopping</a>
+                    </div>
+                    <hr>
+                    <h6 class="mb-0">Shopping cart</h6>
+                    <div class="d-flex justify-content-between">
 
-                    <div class="d-flex flex-row align-items-center"><span class="text-black-50">Sort by:</span>
-                        <div class="price ml-2"><span class="mr-1">price</span><i class="fa fa-angle-down"></i></div>
                     </div>
-                </div>
-                {% for cart_item in cart_items %}
-                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
-                    <div class="d-flex flex-row"><img class="rounded"
-                                                      src={{ cart_item.product.image1_url }} width="40" height="40">
-                        <div class="ml-2"><span class="font-weight-bold d-block">{{ cart_item.product.name }}</span>
+                    {% for cart_item in cart_items %}
+                        <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                            <div class="d-flex flex-row"><img class="rounded"
+                                                              src={{ cart_item.product.image1_url }} width="40"
+                                                              height="40">
+                                <div class="ml-2"><span
+                                        class="font-weight-bold d-block">{{ cart_item.product.name }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center"><span
+                                    class="d-block">{{ cart_item.quantity }}</span><span
+                                    class="d-block ml-5 font-weight-bold">{{ cart_item.product.price }}BYN</span><i
+                                    class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                            <i class="fas fa-trash-alt ml-3 text-black-50 delete-item" data-item-id="{{ cart_item.id }}"
+                               style="cursor: pointer;"></i>
                         </div>
-                    </div>
-                    <div class="d-flex flex-row align-items-center"><span
-                            class="d-block">{{ cart_item.quantity }}</span><span
-                            class="d-block ml-5 font-weight-bold">{{ cart_item.product.price }}BYN</span><i
-                            class="fa fa-trash-o ml-3 text-black-50"></i></div>
-                    <i class="fas fa-trash-alt ml-3 text-black-50 delete-item" data-item-id="{{ cart_item.id }}" style="cursor: pointer;"></i>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-md-4">
@@ -92,29 +88,30 @@
         }
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var deleteButtons = document.querySelectorAll('.delete-item');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteButtons = document.querySelectorAll('.delete-item');
 
-        deleteButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var itemId = button.getAttribute('data-item-id');
+            deleteButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var itemId = button.getAttribute('data-item-id');
 
-                fetch('/remove_from_cart/' + itemId + '/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: JSON.stringify({}),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    location.reload();
-                })
-                .catch(error => console.error('Error:', error));
+                    fetch('remove_from_cart/' + itemId + '/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({}),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            location.reload();
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
             });
         });
-    });
-</script>
+    </script>
+    <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}

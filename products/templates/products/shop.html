@@ -3,11 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    {% block title %}<title>Zay Shop</title>{% endblock %}
-</head>
 {% block content %}
-    <!-- Product Filter -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
@@ -21,12 +17,16 @@
                                 <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                             </a>
                             <ul class="collapse show list-unstyled pl-3">
-                                <input type="checkbox" class="text-decoration-none" name="gender" value="Male"
-                                       id="male">
-                                <label for="male">Men</label>
-                                <input type="checkbox" class="text-decoration-none" name="gender" value="Female"
-                                       id="female">
-                                <label for="female">Women</label>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="gender" value="Male"
+                                           id="male">
+                                    <label for="male">Men</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="gender" value="Female"
+                                           id="female">
+                                    <label for="female">Women</label>
+                                </li>
                             </ul>
                         </li>
                         <li class="pb-3">
@@ -35,15 +35,21 @@
                                 <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                             </a>
                             <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                                <input type="checkbox" class="text-decoration-none" name="category" value="sport"
-                                       id="sport">
-                                <label for="sport">Sport</label>
-                                <input type="checkbox" class="text-decoration-none" name="category" value="luxury"
-                                       id="luxury">
-                                <label for="luxury">Luxury</label>
-                                <input type="checkbox" class="text-decoration-none" name="category" value="everyday"
-                                       id="everyday">
-                                <label for="everyday">Everyday</label>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="category" value="sport"
+                                           id="sport">
+                                    <label for="sport">Sport</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="category" value="luxury"
+                                           id="luxury">
+                                    <label for="luxury">Luxury</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="category" value="everyday"
+                                           id="everyday">
+                                    <label for="everyday">Everyday</label>
+                                </li>
                             </ul>
                         </li>
                         <li class="pb-3">
@@ -52,18 +58,26 @@
                                 <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                             </a>
                             <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                                <input type="checkbox" class="text-decoration-none" name="unit" value="hoodie"
-                                       id="hoodie">
-                                <label for="hoodie">Hoodie</label>
-                                <input type="checkbox" class="text-decoration-none" name="unit" value="longsleeve"
-                                       id="longsleeve">
-                                <label for="longsleeve">Longsleeve</label>
-                                <input type="checkbox" class="text-decoration-none" name="unit" value="jeans"
-                                       id="jeans">
-                                <label for="jeans">Jeans</label>
-                                <input type="checkbox" class="text-decoration-none" name="unit" value="dress"
-                                       id="dress">
-                                <label for="dress">Dress</label>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="unit" value="hoodie"
+                                           id="hoodie">
+                                    <label for="hoodie">Hoodie</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="unit" value="longsleeve"
+                                           id="longsleeve">
+                                    <label for="longsleeve">Longsleeve</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="unit" value="jeans"
+                                           id="jeans">
+                                    <label for="jeans">Jeans</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="unit" value="dress"
+                                           id="dress">
+                                    <label for="dress">Dress</label>
+                                </li>
                             </ul>
                         </li>
                         <li class="pb-3">
@@ -72,18 +86,26 @@
                                 <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                             </a>
                             <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                                <input type="checkbox" class="text-decoration-none" name="sizes" value="S"
-                                       id="S">
-                                <label for="S">S</label>
-                                <input type="checkbox" class="text-decoration-none" name="sizes" value="M"
-                                       id="M">
-                                <label for="M">M</label>
-                              <input type="checkbox" class="text-decoration-none" name="sizes" value="L"
-                                       id="L">
-                                <label for="L">L</label>
-                              <input type="checkbox" class="text-decoration-none" name="sizes" value="XL"
-                                       id="XL">
-                                <label for="XL">XL</label>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="sizes" value="S"
+                                           id="S">
+                                    <label for="S">S</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="sizes" value="M"
+                                           id="M">
+                                    <label for="M">M</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="sizes" value="L"
+                                           id="L">
+                                    <label for="L">L</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="text-decoration-none" name="sizes" value="XL"
+                                           id="XL">
+                                    <label for="XL">XL</label>
+                                </li>
                             </ul>
                         </li>
                         <div class="row">
@@ -92,7 +114,7 @@
                     </ul>
                 </form>
             </div>
-            <!-- Product Cards -->
+
             <div class="col-lg-9">
                 <div class="row">
                     <div class="col-md-6">
@@ -149,11 +171,7 @@
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}
-
-</body>
-
 </html>
